@@ -1,0 +1,3 @@
+DROP INDEX IF EXISTS idx_media;
+
+DROP TABLE IF EXISTS media;

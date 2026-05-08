@@ -1,0 +1,14 @@
+CREATE TABLE posts (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    content TEXT NOT NULL,
+    author VARCHAR(100),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE post_media (
+    post_id INT REFERENCES posts(id) ON DELETE CASCADE,
+    media_id INT REFERENCES media(id) ON DELETE CASCADE,
+    PRIMARY KEY (post_id, media_id)
+);
