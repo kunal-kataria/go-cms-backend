@@ -40,7 +40,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 		media := v1.Group("/media")
 		{
 			media.GET("/", controllers.GetMedia)
-			media.GET("/:id", controllers.GetMedia)
+			media.GET("/:id", controllers.GetMediaByID)
 			media.POST("/", controllers.CreateMedia)
 			media.DELETE("/:id", controllers.DeleteMedia)
 		}
