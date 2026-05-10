@@ -4,7 +4,6 @@ import (
 	"go-cms-backend/models"
 	"go-cms-backend/utils"
 	"strconv"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -67,10 +66,10 @@ func CreateMedia(c *gin.Context) {
 		return
 	}
 
-	if strings.TrimSpace(media.URL) == "" || strings.TrimSpace(media.Type) == "" {
+	if err := media.Validate(); err != nil {
 		c.JSON(400, utils.HTTPError{
 			Code: 400,
-			Message: "URL/Type cannot be empty",
+			Message: err.Error(),
 		})
 		return
 	}

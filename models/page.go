@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"errors"
+	"time"
+	"strings"
+)
 
 // Page struct that will represent pages in our CMS
 type Page struct {
@@ -18,4 +22,14 @@ type Page struct {
 
 	// UpdatedAt (timestamp for last update)
 	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime"`
+}
+
+func (p *Page) Validate() error {
+	if strings.TrimSpace(p.Title) == "" {
+		return errors.New("Page Title cannot be empty")
+	}
+	if strings.TrimSpace(p.Content) == "" {
+		return errors.New("Page Content cannot be empty")
+	}
+	return nil
 }

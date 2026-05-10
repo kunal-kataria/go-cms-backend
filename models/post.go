@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+	"strings"
+	"errors"
+)
 
 // Post struct that will represent blog posts in our CMS
 type Post struct {
@@ -24,4 +28,14 @@ type Post struct {
 
 	// Media (slice of Media, representing a many-to-many relationship)
 	Media []Media `json:"media" gorm:"many2many:post_media"`
+}
+
+func (p *Post) Validate() error {
+	if strings.TrimSpace(p.Title) == "" {
+		return errors.New("Post Title cannot be empty")
+	}
+	if strings.TrimSpace(p.Content) == "" {
+		return errors.New("Post Content cannot be empty")
+	}
+	return nil
 }
