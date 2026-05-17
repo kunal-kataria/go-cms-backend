@@ -21,8 +21,8 @@ Content management systems (CMS) help manage and deliver content across websites
 1. **Clone the repository**
 
     ```bash
-    git clone https://github.com/udacity/backend-dev-C1-starter.git
-    cd project/solution
+    git clone https://github.com/kunal-kataria/go-cms-backend.git
+    cd go-cms-backend
     ```
 
 2. **Install Go dependencies**
