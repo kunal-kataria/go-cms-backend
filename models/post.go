@@ -1,9 +1,9 @@
 package models
 
 import (
-	"time"
-	"strings"
 	"errors"
+	"strings"
+	"time"
 )
 
 // Post struct that will represent blog posts in our CMS

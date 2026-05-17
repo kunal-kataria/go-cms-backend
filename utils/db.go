@@ -12,13 +12,12 @@ import (
 )
 
 // ConnectDB initializes the database connection
-
 func DbConnect() (*gorm.DB, error) {
 	dbUser := os.Getenv("DB_USER")
-    dbPassword := os.Getenv("DB_PASSWORD")
-    dbName := os.Getenv("DB_NAME")
-    dbHost := os.Getenv("DB_HOST")
-    dbPort := os.Getenv("DB_PORT")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	dbName := os.Getenv("DB_NAME")
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
 
 	missing := []string{}
 	if dbUser == "" {
@@ -40,8 +39,8 @@ func DbConnect() (*gorm.DB, error) {
 		return nil, fmt.Errorf("missing required env vars: %v", missing)
 	}
 
-    dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=UTC",
-        dbHost, dbUser, dbPassword, dbName, dbPort)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=UTC",
+		dbHost, dbUser, dbPassword, dbName, dbPort)
 
 	config := &gorm.Config{
 		Logger: logger.New(

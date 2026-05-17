@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"go-cms-backend/controllers"
+	"github.com/kunal-kataria/go-cms-backend/controllers"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -9,14 +9,14 @@ import (
 
 // InitializeRoutes sets up all API routes
 func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
-	router.Use(func(c *gin.Context){ // Middleware: add DB connection to the gin.context
-		c.Set("db",db)
+	router.Use(func(c *gin.Context) { // Middleware: add DB connection to the gin.context
+		c.Set("db", db)
 		c.Next() //pases connection to next middlewares
 	})
 
 	v1 := router.Group("api/v1")
-    {
-        // Page Routes
+	{
+		// Page Routes
 		pages := v1.Group("/pages")
 		{
 			pages.GET("/", controllers.GetPages)
@@ -25,7 +25,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 			pages.PUT("/:id", controllers.UpdatePage)
 			pages.DELETE("/:id", controllers.DeletePage)
 		}
-        
+
 		// Post Routes
 		posts := v1.Group("/posts")
 		{
@@ -35,7 +35,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 			posts.PUT("/:id", controllers.UpdatePost)
 			posts.DELETE("/:id", controllers.DeletePost)
 		}
-        
+
 		// Media Routes
 		media := v1.Group("/media")
 		{
@@ -44,5 +44,5 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 			media.POST("/", controllers.CreateMedia)
 			media.DELETE("/:id", controllers.DeleteMedia)
 		}
-    }
+	}
 }

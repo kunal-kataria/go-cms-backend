@@ -2,8 +2,8 @@ package models
 
 import (
 	"errors"
-	"time"
 	"strings"
+	"time"
 )
 
 // Page struct that will represent pages in our CMS
@@ -16,7 +16,7 @@ type Page struct {
 
 	// Content (text field, required)
 	Content string `json:"content" gorm:"type:text;not null" binding:"required"`
-    
+
 	// CreatedAt (timestamp for creation date)
 	CreatedAt time.Time `json:"created_at" gorm:"autoCreateTime"`
 

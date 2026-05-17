@@ -1,9 +1,10 @@
 package controllers
 
 import (
-	"go-cms-backend/models"
-	"go-cms-backend/utils"
 	"strconv"
+
+	"github.com/kunal-kataria/go-cms-backend/models"
+	"github.com/kunal-kataria/go-cms-backend/utils"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -26,7 +27,7 @@ func GetPosts(c *gin.Context) {
 
 	if err := query.Preload("Media").Find(&posts).Error; err != nil {
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to fetch posts",
 		})
 		return
@@ -42,7 +43,7 @@ func GetPost(c *gin.Context) {
 	id, err := strconv.Atoi(strid)
 	if err != nil {
 		c.JSON(400, utils.HTTPError{
-			Code: 400,
+			Code:    400,
 			Message: "Invalid Id",
 		})
 		return
@@ -62,7 +63,7 @@ func GetPost(c *gin.Context) {
 	var post models.Post
 	if err := query.Preload("Media").First(&post, id).Error; err != nil {
 		c.JSON(404, utils.HTTPError{
-			Code: 404,
+			Code:    404,
 			Message: "Post not found",
 		})
 		return
@@ -75,7 +76,7 @@ func CreatePost(c *gin.Context) {
 	var post models.Post
 	if err := c.ShouldBindJSON(&post); err != nil {
 		c.JSON(400, utils.HTTPError{
-			Code: 400,
+			Code:    400,
 			Message: "Invalid post data",
 		})
 		return
@@ -83,7 +84,7 @@ func CreatePost(c *gin.Context) {
 
 	if err := post.Validate(); err != nil {
 		c.JSON(400, utils.HTTPError{
-			Code: 400,
+			Code:    400,
 			Message: err.Error(),
 		})
 		return
@@ -93,7 +94,7 @@ func CreatePost(c *gin.Context) {
 	tx := db.Begin()
 	if tx.Error != nil {
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to start transaction",
 		})
 		return
@@ -102,7 +103,7 @@ func CreatePost(c *gin.Context) {
 	if err := tx.Create(&post).Error; err != nil {
 		tx.Rollback()
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to create Post",
 		})
 		return
@@ -111,7 +112,7 @@ func CreatePost(c *gin.Context) {
 	if err := tx.Commit().Error; err != nil {
 		tx.Rollback()
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to commit transaction",
 		})
 		return
@@ -129,17 +130,17 @@ func UpdatePost(c *gin.Context) {
 	id, err := strconv.Atoi(strid)
 	if err != nil {
 		c.JSON(400, utils.HTTPError{
-			Code: 400,
+			Code:    400,
 			Message: "Invalid ID",
 		})
 		return
 	}
-	
+
 	var existingPost models.Post
 	if err := db.First(&existingPost, id).Error; err != nil {
 		c.JSON(404, utils.HTTPError{
-			Code: 404,
-			Message: "Post not found!",		
+			Code:    404,
+			Message: "Post not found!",
 		})
 		return
 	}
@@ -147,7 +148,7 @@ func UpdatePost(c *gin.Context) {
 	var post models.Post
 	if err := c.ShouldBindJSON(&post); err != nil {
 		c.JSON(400, utils.HTTPError{
-			Code: 400,
+			Code:    400,
 			Message: "Invalid Post data",
 		})
 		return
@@ -155,7 +156,7 @@ func UpdatePost(c *gin.Context) {
 
 	if err := post.Validate(); err != nil {
 		c.JSON(400, utils.HTTPError{
-			Code: 400,
+			Code:    400,
 			Message: err.Error(),
 		})
 		return
@@ -164,7 +165,7 @@ func UpdatePost(c *gin.Context) {
 	tx := db.Begin()
 	if tx.Error != nil {
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to start transaction",
 		})
 		return
@@ -173,7 +174,7 @@ func UpdatePost(c *gin.Context) {
 	if err := tx.Model(&models.Post{}).Where("id = ?", id).Updates(&post).Error; err != nil {
 		tx.Rollback()
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to update post",
 		})
 		return
@@ -182,7 +183,7 @@ func UpdatePost(c *gin.Context) {
 	if err := tx.Commit().Error; err != nil {
 		tx.Rollback()
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to commit transaction",
 		})
 		return
@@ -200,17 +201,17 @@ func DeletePost(c *gin.Context) {
 	id, err := strconv.Atoi(strid)
 	if err != nil {
 		c.JSON(400, utils.HTTPError{
-			Code: 400,
+			Code:    400,
 			Message: "Invalid ID",
 		})
 		return
 	}
-	
+
 	var post models.Post
 	if err := db.First(&post, id).Error; err != nil {
 		c.JSON(404, utils.HTTPError{
-			Code: 404,
-			Message: "Post not found!",		
+			Code:    404,
+			Message: "Post not found!",
 		})
 		return
 	}
@@ -218,16 +219,16 @@ func DeletePost(c *gin.Context) {
 	tx := db.Begin()
 	if tx.Error != nil {
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to start transaction",
 		})
 		return
 	}
 
-	if  err := tx.Delete(&post).Error; err != nil {
+	if err := tx.Delete(&post).Error; err != nil {
 		tx.Rollback()
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to delete Post",
 		})
 		return
@@ -236,7 +237,7 @@ func DeletePost(c *gin.Context) {
 	if err := tx.Commit().Error; err != nil {
 		tx.Rollback()
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to commit transaction",
 		})
 		return

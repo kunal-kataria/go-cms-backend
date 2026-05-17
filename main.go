@@ -1,10 +1,11 @@
 package main
 
 import (
-	"go-cms-backend/models"
-	"go-cms-backend/routes"
-	"go-cms-backend/utils"
 	"os"
+
+	"github.com/kunal-kataria/go-cms-backend/models"
+	"github.com/kunal-kataria/go-cms-backend/routes"
+	"github.com/kunal-kataria/go-cms-backend/utils"
 
 	"log"
 
@@ -18,7 +19,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to connect to Database: %v", err)
 	}
-	
+
 	// Get the underlying *sql.DB instance and defer its closure
 	sqlDB, err := db.DB()
 	if err != nil {
@@ -42,7 +43,7 @@ func main() {
 
 	// Set Gin mode based on environment
 	if env == "production" {
-		gin.SetMode(gin.ReleaseMode) // ReleaseMode reduces log noise and disables debug features. 
+		gin.SetMode(gin.ReleaseMode) // ReleaseMode reduces log noise and disables debug features.
 	}
 
 	router := gin.Default()

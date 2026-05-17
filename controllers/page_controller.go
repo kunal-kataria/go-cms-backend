@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"go-cms-backend/models"
-	"go-cms-backend/utils"
+	"github.com/kunal-kataria/go-cms-backend/models"
+	"github.com/kunal-kataria/go-cms-backend/utils"
 
 	"strconv"
 
@@ -17,7 +17,7 @@ func GetPages(c *gin.Context) {
 
 	if err := db.Find(&pages).Error; err != nil {
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to fetch data",
 		})
 		return
@@ -33,7 +33,7 @@ func GetPage(c *gin.Context) {
 	id, err := strconv.Atoi(strid)
 	if err != nil {
 		c.JSON(400, utils.HTTPError{
-			Code: 400,
+			Code:    400,
 			Message: "Invalid ID",
 		})
 		return
@@ -42,7 +42,7 @@ func GetPage(c *gin.Context) {
 	var page models.Page
 	if err := db.First(&page, id).Error; err != nil {
 		c.JSON(404, utils.HTTPError{
-			Code: 404,
+			Code:    404,
 			Message: "Record not found",
 		})
 		return
@@ -57,7 +57,7 @@ func CreatePage(c *gin.Context) {
 	var page models.Page
 	if err := c.ShouldBindJSON(&page); err != nil {
 		c.JSON(400, utils.HTTPError{
-			Code: 400,
+			Code:    400,
 			Message: "Invalid Page data",
 		})
 		return
@@ -65,7 +65,7 @@ func CreatePage(c *gin.Context) {
 
 	if err := page.Validate(); err != nil {
 		c.JSON(400, utils.HTTPError{
-			Code: 400,
+			Code:    400,
 			Message: err.Error(),
 		})
 		return
@@ -74,7 +74,7 @@ func CreatePage(c *gin.Context) {
 	tx := db.Begin()
 	if tx.Error != nil {
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to start transaction",
 		})
 		return
@@ -83,7 +83,7 @@ func CreatePage(c *gin.Context) {
 	if err := tx.Create(&page).Error; err != nil {
 		tx.Rollback()
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to create Page",
 		})
 		return
@@ -92,7 +92,7 @@ func CreatePage(c *gin.Context) {
 	if err := tx.Commit().Error; err != nil {
 		tx.Rollback()
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to commit transaction",
 		})
 		return
@@ -110,7 +110,7 @@ func UpdatePage(c *gin.Context) {
 	id, err := strconv.Atoi(strid)
 	if err != nil {
 		c.JSON(400, utils.HTTPError{
-			Code: 400,
+			Code:    400,
 			Message: "Invalid ID",
 		})
 		return
@@ -119,7 +119,7 @@ func UpdatePage(c *gin.Context) {
 	var existingPage models.Page
 	if err := db.First(&existingPage, id).Error; err != nil {
 		c.JSON(404, utils.HTTPError{
-			Code: 404,
+			Code:    404,
 			Message: "Page not found!",
 		})
 		return
@@ -128,7 +128,7 @@ func UpdatePage(c *gin.Context) {
 	var page models.Page
 	if err := c.ShouldBindJSON(&page); err != nil {
 		c.JSON(400, utils.HTTPError{
-			Code: 400,
+			Code:    400,
 			Message: "Invalid Page data",
 		})
 		return
@@ -136,7 +136,7 @@ func UpdatePage(c *gin.Context) {
 
 	if err := page.Validate(); err != nil {
 		c.JSON(400, utils.HTTPError{
-			Code: 400,
+			Code:    400,
 			Message: err.Error(),
 		})
 		return
@@ -145,7 +145,7 @@ func UpdatePage(c *gin.Context) {
 	tx := db.Begin()
 	if tx.Error != nil {
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to start transaction",
 		})
 		return
@@ -154,7 +154,7 @@ func UpdatePage(c *gin.Context) {
 	if err := tx.Model(&models.Page{}).Where("id = ?", id).Updates(&page).Error; err != nil {
 		tx.Rollback()
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to update Page",
 		})
 		return
@@ -163,7 +163,7 @@ func UpdatePage(c *gin.Context) {
 	if err := tx.Commit().Error; err != nil {
 		tx.Rollback()
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to commit transaction",
 		})
 		return
@@ -182,7 +182,7 @@ func DeletePage(c *gin.Context) {
 	id, err := strconv.Atoi(strid)
 	if err != nil {
 		c.JSON(400, utils.HTTPError{
-			Code: 400,
+			Code:    400,
 			Message: "Invalid ID",
 		})
 		return
@@ -191,7 +191,7 @@ func DeletePage(c *gin.Context) {
 	var page models.Page
 	if err := db.First(&page, id).Error; err != nil {
 		c.JSON(404, utils.HTTPError{
-			Code: 404,
+			Code:    404,
 			Message: "Page not found!",
 		})
 		return
@@ -200,7 +200,7 @@ func DeletePage(c *gin.Context) {
 	tx := db.Begin()
 	if tx.Error != nil {
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to start transaction",
 		})
 		return
@@ -209,7 +209,7 @@ func DeletePage(c *gin.Context) {
 	if err := tx.Delete(&page).Error; err != nil {
 		tx.Rollback()
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to delete page",
 		})
 		return
@@ -218,7 +218,7 @@ func DeletePage(c *gin.Context) {
 	if err := tx.Commit().Error; err != nil {
 		tx.Rollback()
 		c.JSON(500, utils.HTTPError{
-			Code: 500,
+			Code:    500,
 			Message: "Failed to commit transaction",
 		})
 		return

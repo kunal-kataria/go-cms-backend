@@ -1,9 +1,9 @@
 package models
 
 import (
-	"time"
 	"errors"
 	"strings"
+	"time"
 )
 
 type Media struct {
